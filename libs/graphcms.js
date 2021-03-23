@@ -1,3 +1,5 @@
+require("isomorphic-fetch");
+
 async function fetchAPI(query, { variables, preview } = {}) {
   console.log("process.env.GRAPHCMS_PROJECT_API");
   console.log(query, variables);

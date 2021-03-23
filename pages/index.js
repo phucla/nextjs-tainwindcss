@@ -1,8 +1,10 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { getAllPostsForHome } from "../libs/graphcms";
+import { GraphQLClient } from "graphql-request";
+import About from "../components/About";
+import Menu from "../components/Menu";
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +16,8 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+        <About data={data.values} />
+        <Menu />
         <p className={styles.description}>
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
@@ -58,17 +61,43 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <img
+            src="images/logo.png"
+            alt="Vercel Logo"
+            className={styles.logo}
+          />
         </a>
       </footer>
     </div>
   );
 }
 
-export async function getStaticProps({ preview = false }) {
-  const posts = (await getAllPostsForHome(preview)) || [];
-  console.log("fetch", posts, preview);
+export async function getStaticProps() {
+  const graphcms = new GraphQLClient(
+    "https://api-ap-northeast-1.graphcms.com/v2/ckmbf2e6jub2y01ur4bj0hw1h/master"
+  );
+
+  const data = await graphcms.request(
+    `query content_171408693c5642d7a8c0b446d1f6309c_ckmm36jbc6gfn0b81tfmy5v5n($id: ID!) {
+      values: asset (where: { id: $id}, stage: DRAFT) {
+        id
+        stage
+        fileName
+        mimeType
+        width
+        height
+        size
+        url
+      }
+    }
+    `,
+    { id: "ckmm36jbc6gfn0b81tfmy5v5n" }
+  );
+
+  console.log(data);
   return {
-    props: { posts, preview },
+    props: {
+      data,
+    },
   };
 }
