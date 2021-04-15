@@ -1,76 +1,91 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import { GraphQLClient } from "graphql-request";
-import About from "../components/About";
-import Menu from "../components/Menu";
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import clsx from "clsx";
+import Header from "../components/Header";
+import Banner from "../components/Banner";
+import OurTeam from "../components/OurTeam";
+import OurMember from "../components/OurMember";
+import Subcribe from "../components/Subcribe";
+import Footer from "../components/Footer";
 
-export default function Home({ data }) {
+const Home = () => {
+  const [isToggle, setToggle] = useState(false);
+  const [isShowIcon, setShowIcon] = useState(false);
+  const handleScroll = () => {
+    const pixels = 50;
+    const top = 1200;
+    if (window.pageYOffset > pixels) {
+      setToggle(true);
+    } else {
+      setToggle(false);
+    }
+    if (window.pageYOffset > pixels) {
+      setShowIcon(true);
+      // $(".scrolltop-atf").fadeIn(1000, "easeInOutExpo");
+    } else {
+      setShowIcon(false);
+      //$(".scrolltop-atf").fadeOut(1000, "easeInOutExpo");
+    }
+    console.log(isToggle);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
   return (
-    <div className={styles.container}>
+    <div className="text-white">
       <Head>
-        <title>Create Next App</title>
+        <title>Our team</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        <About data={data.values} />
-        <Menu />
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <main>
+        <button
+          className={clsx(
+            "fixed bottom-20 z-1 focus:outline-none",
+            isShowIcon ? "right-8" : "-left-20"
+          )}
+          data-targets="html"
         >
-          Powered by{" "}
-          <img
-            src="images/logo.png"
-            alt="Vercel Logo"
-            className={styles.logo}
+          <i className="hover:opacity-80 w-12 h-12 bg-blue-600 leading-48 rounded-50 fa fa-angle-up atf-scrollup-icon"></i>
+        </button>
+        <Header isToggle={isToggle} />
+        <Banner />
+        <OurTeam />
+        <OurMember />
+        <div className="w-full h-x relative how-it-work flex items-center justify-center">
+          <div className="absolute w-3/5 z-1 text-center">
+            <h3 className="text-4xl font-bold leading-10 text-white mb-8">
+              Lorem ipsum dolor sit amet, consecte adipisc elit.
+            </h3>
+            <a
+              href="#"
+              className="text-white bg-blue-500 text-base rounded-4 py-4 px-6 font-medium"
+            >
+              How It Work
+            </a>
+          </div>
+          <Image
+            alt="Mountains"
+            src="https://themesfamily.com/tm/muhsi/assets/img/gallery/2.jpg"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
           />
-        </a>
-      </footer>
+        </div>
+
+        <Subcribe />
+        <Footer />
+      </main>
     </div>
   );
-}
+};
+
+export default Home;
 
 export async function getStaticProps() {
   const graphcms = new GraphQLClient(
