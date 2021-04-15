@@ -41,7 +41,7 @@ const OurMember = () => {
       <div className="flex flex-wrap">	
         {data.map(item => (
           <div key={item.title} className="px-3 group lg:w-1/4 md:w-1/2 text-center sm:w-full">
-            <div className="rounded-md bg-blue-50	pb-7 pt-5 px-4 hover:shadow-team duration-500 transition-shadow group transform">
+            <div className="cursor-pointer rounded-md bg-blue-50	pb-7 pt-5 px-4 hover:shadow-team duration-500 transition-shadow group transform">
               <div className="w-full h-full mb-6 duration-500 transition-shadow transform group-hover:bg-blue-800 rounded-custom">
                 <Image
                   src="https://themesfamily.com/tm/muhsi/assets/img/team/1.png"

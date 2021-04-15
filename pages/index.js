@@ -39,8 +39,13 @@ const Home = () => {
   return (
     <div className="text-white">
       <Head>
-        <title>Our team</title>
+        <title>Leocf dev</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          property="og:title"
+          content="LeoCF dev"
+          key="leocf dev landingpage xaocho"
+        />
       </Head>
 
       <main>
