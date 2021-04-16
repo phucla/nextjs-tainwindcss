@@ -8,7 +8,7 @@ const Banner = () => (
 							<p className="text-lg pt-10 pb-6" >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do elit eiusmod tempor incididunt ut labore et dolore.</p>
 							
 							<div className="mt-3"> 
-								<a href="#" className="ease-in-out duration-500 transition-all translate-y-px hover:bg-green-800 py-4 px-6 bg-blue-500 rounded">Contact Us <i className="fa fa-angle-right"></i></a>
+								<a href="#" className="ease-in-out duration-500 transition-all translate-y-px hover:bg-green-800 py-4 px-6 bg-blue-500 rounded-4">Contact Us <i className="fa fa-angle-right"></i></a>
 							</div>
 						</div>
 					</div>

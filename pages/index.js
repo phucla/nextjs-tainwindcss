@@ -1,18 +1,22 @@
 import { GraphQLClient } from "graphql-request";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import clsx from "clsx";
+import { Motion, spring } from "react-motion";
+
 import Header from "../components/Header";
 import Banner from "../components/Banner";
-import OurTeam from "../components/OurTeam";
-import OurMember from "../components/OurMember";
+import { OurTeam } from "../components/OurTeam";
+import { OurMember } from "../components/OurMember";
 import Subcribe from "../components/Subcribe";
 import Footer from "../components/Footer";
 
 const Home = () => {
   const [isToggle, setToggle] = useState(false);
   const [isShowIcon, setShowIcon] = useState(false);
+  const refScroll = useRef();
+  const refAboput = useRef();
+  const refTeam = useRef();
   const handleScroll = () => {
     const pixels = 50;
     const top = 1200;
@@ -21,19 +25,29 @@ const Home = () => {
     } else {
       setToggle(false);
     }
-    if (window.pageYOffset > pixels) {
+
+    if (window.pageYOffset > 200) {
       setShowIcon(true);
-      // $(".scrolltop-atf").fadeIn(1000, "easeInOutExpo");
     } else {
       setShowIcon(false);
-      //$(".scrolltop-atf").fadeOut(1000, "easeInOutExpo");
     }
-    console.log(isToggle);
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const moveToTop = useCallback(() => {
+    refScroll.current.scrollIntoView({ behavior: "smooth" });
+  });
+
+  const moveToAbout = useCallback(() => {
+    refAboput.current.scrollIntoView({ behavior: "smooth" });
+  });
+
+  const moveToTeam = useCallback(() => {
+    refTeam.current.scrollIntoView({ behavior: "smooth" });
   });
 
   return (
@@ -48,23 +62,38 @@ const Home = () => {
         />
       </Head>
 
-      <main>
-        <button
-          className={clsx(
-            "fixed bottom-20 z-1 focus:outline-none",
-            isShowIcon ? "right-8" : "-left-20"
-          )}
-          data-targets="html"
+      <main ref={refScroll}>
+        <Motion
+          style={{
+            x: spring(isShowIcon ? window.innerWidth - 100 : -100, {
+              precision: 0.04,
+            }),
+          }}
         >
-          <i className="hover:opacity-80 w-12 h-12 bg-blue-600 leading-48 rounded-50 fa fa-angle-up atf-scrollup-icon"></i>
-        </button>
-        <Header isToggle={isToggle} />
+          {({ x }) => (
+            <button
+              style={{
+                transform: `translate3d(${x}px, 10px, 10px)`,
+              }}
+              className="fixed bottom-20 z-10 focus:outline-none"
+              data-targets="html"
+              onClick={moveToTop}
+            >
+              <i className="hover:opacity-80 w-12 h-12 bg-blue-600 leading-48 rounded-50 fa fa-angle-up atf-scrollup-icon"></i>
+            </button>
+          )}
+        </Motion>
+        <Header
+          isToggle={isToggle}
+          moveToAbout={moveToAbout}
+          moveToTeam={moveToTeam}
+        />
         <Banner />
-        <OurTeam />
-        <OurMember />
+        <OurTeam ref={refAboput} />
+        <OurMember ref={refTeam} />
         <div className="w-full h-x relative how-it-work flex items-center justify-center">
           <div className="absolute w-3/5 z-1 text-center">
-            <h3 className="text-4xl font-bold leading-10 text-white mb-8">
+            <h3 className="text-2xl md:text-4xl font-bold leading-10 text-white mb-8">
               Lorem ipsum dolor sit amet, consecte adipisc elit.
             </h3>
             <a
@@ -82,7 +111,6 @@ const Home = () => {
             quality={100}
           />
         </div>
-
         <Subcribe />
         <Footer />
       </main>
@@ -114,7 +142,6 @@ export async function getStaticProps() {
     { id: "ckmm36jbc6gfn0b81tfmy5v5n" }
   );
 
-  console.log(data);
   return {
     props: {
       data,

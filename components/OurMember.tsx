@@ -1,5 +1,4 @@
 import React from 'react'
-import clsx from 'clsx'
 import Image from 'next/image'
 
 const data = [
@@ -24,9 +23,9 @@ const data = [
     icon: "fab fa-uikit"
   }
 ]
-const OurMember = () => {
+export const OurMember = React.forwardRef((props, ref) => {
   return (
-  <section id="about" className="py-20 container mx-auto">
+  <section id="agency-team" className="py-20 container mx-auto" ref={ref}>
     <div className="container">
       <div className="flex justify-center text-center">
         <div className="lg:w-1/2">
@@ -40,7 +39,7 @@ const OurMember = () => {
       
       <div className="flex flex-wrap">	
         {data.map(item => (
-          <div key={item.title} className="px-3 group lg:w-1/4 md:w-1/2 text-center sm:w-full">
+          <div key={item.title} className="px-3 group lg:w-1/4 md:w-1/2 sm:w-full w-full text-center my-3">
             <div className="cursor-pointer rounded-md bg-blue-50	pb-7 pt-5 px-4 hover:shadow-team duration-500 transition-shadow group transform">
               <div className="w-full h-full mb-6 duration-500 transition-shadow transform group-hover:bg-blue-800 rounded-custom">
                 <Image
@@ -68,6 +67,4 @@ const OurMember = () => {
     </div>
   </section>
   )
-}
-
-export default OurMember
+})
