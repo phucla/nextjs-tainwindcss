@@ -19,14 +19,13 @@ const Home = () => {
   const refTeam = useRef();
   const handleScroll = () => {
     const pixels = 50;
-    const top = 1200;
     if (window.pageYOffset > pixels) {
       setToggle(true);
     } else {
       setToggle(false);
     }
 
-    if (window.pageYOffset > 200) {
+    if (window.pageYOffset > 100) {
       setShowIcon(true);
     } else {
       setShowIcon(false);

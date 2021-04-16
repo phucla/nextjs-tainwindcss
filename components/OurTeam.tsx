@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, ForwardedRef } from 'react'
 import clsx from 'clsx'
 
 const data = [
@@ -23,7 +23,7 @@ const data = [
     icon: "fab fa-uikit"
   }
 ]
-export const OurTeam = forwardRef((props, ref) => {
+export const OurTeam = forwardRef((props, ref: ForwardedRef<HTMLElement>) => {
   return (
     <section id="about" className="py-20 container mx-auto" ref={ref}>
       <div className="container">

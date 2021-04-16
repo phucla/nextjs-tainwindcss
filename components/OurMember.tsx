@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef, ForwardedRef} from 'react'
 import Image from 'next/image'
 
 const data = [
@@ -23,7 +23,7 @@ const data = [
     icon: "fab fa-uikit"
   }
 ]
-export const OurMember = React.forwardRef((props, ref) => {
+export const OurMember =forwardRef((props, ref: ForwardedRef<HTMLElement>) => {
   return (
   <section id="agency-team" className="py-20 container mx-auto" ref={ref}>
     <div className="container">
